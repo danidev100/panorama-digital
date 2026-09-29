@@ -8,12 +8,14 @@ import { renderizarCards } from '../components/card.js';
 import { obtenerNoticias } from '../services/noticias.service.js';
 import { obtenerFavoritos, quitarFavorito } from '../services/favoritos.service.js';
 import { mostrarToast } from '../utils.js';
+import { transicion } from '../motion.js';
 
 iniciarLayout('favoritos');
 
 const elLista = document.getElementById('lista-favoritos');
 const btnVaciar = document.getElementById('btn-vaciar');
 let catalogo = [];
+let primeraCarga = true;
 
 /** Muestra las tarjetas de favoritos o un estado vacío con llamado a la acción. */
 function renderizar() {
@@ -29,7 +31,7 @@ function renderizar() {
   if (favoritas.length === 0) {
     elLista.innerHTML = `
       <div class="col-12">
-        <div class="estado-vacio">
+        <div class="estado-vacio entrada">
           <i class="bi bi-star" aria-hidden="true"></i>
           <h2 class="h4 mt-3">Aún no tienes favoritos</h2>
           <p>Abre una noticia y pulsa <strong>“Agregar a favoritos”</strong> para guardarla aquí.</p>
@@ -39,7 +41,8 @@ function renderizar() {
     return;
   }
 
-  renderizarCards(elLista, favoritas, { quitarFavorito: true });
+  renderizarCards(elLista, favoritas, { quitarFavorito: true, animar: primeraCarga });
+  primeraCarga = false;
 }
 
 // Delegación de eventos para los botones "Quitar" de cada tarjeta.
@@ -47,13 +50,13 @@ elLista.addEventListener('click', (e) => {
   const boton = e.target.closest('[data-accion="quitar-favorito"]');
   if (!boton) return;
   quitarFavorito(Number(boton.dataset.id));
-  renderizar();
+  transicion(renderizar); // La tarjeta retirada se desvanece y las demás se reacomodan.
   mostrarToast('Noticia retirada de favoritos.', 'info');
 });
 
 btnVaciar.addEventListener('click', () => {
   obtenerFavoritos().forEach((id) => quitarFavorito(id));
-  renderizar();
+  transicion(renderizar);
   mostrarToast('Se vació tu lista de favoritos.', 'info');
 });
 

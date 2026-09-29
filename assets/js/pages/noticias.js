@@ -14,6 +14,7 @@ import {
 } from '../services/noticias.service.js';
 import { quitarFavorito } from '../services/favoritos.service.js';
 import { obtenerParametro, mostrarToast, escaparHTML } from '../utils.js';
+import { transicion, animar } from '../motion.js';
 
 iniciarLayout('noticias');
 
@@ -27,6 +28,7 @@ const estado = {
   busqueda: '',
   pagina: 1,
   idPorEliminar: null,
+  primeraCarga: true, // Solo la primera carga muestra las tarjetas en cascada.
 };
 
 // Referencias a elementos del DOM
@@ -38,6 +40,20 @@ const elResumen = document.getElementById('resumen-resultados');
 const formPublicar = document.getElementById('form-publicar');
 const modalPublicar = bootstrap.Modal.getOrCreateInstance('#modal-publicar');
 const modalEliminar = bootstrap.Modal.getOrCreateInstance('#modal-eliminar');
+
+/**
+ * Cierra un modal y espera a que termine su animación de salida, para que la
+ * transición de las tarjetas no se superponga con el cierre del modal.
+ * @param {string} idModal - id del elemento del modal.
+ * @returns {Promise<void>}
+ */
+function cerrarModal(idModal) {
+  const elemento = document.getElementById(idModal);
+  return new Promise((resolver) => {
+    elemento.addEventListener('hidden.bs.modal', () => resolver(), { once: true });
+    bootstrap.Modal.getOrCreateInstance(elemento).hide();
+  });
+}
 
 /* ---------------------------------------------------------------------------
  * Filtrado y renderizado
@@ -103,14 +119,15 @@ function renderizar() {
   if (visibles.length === 0) {
     elLista.innerHTML = `
       <div class="col-12">
-        <div class="estado-vacio">
+        <div class="estado-vacio entrada">
           <i class="bi bi-search" aria-hidden="true"></i>
           <p class="mt-3 mb-0">No encontramos noticias con esos criterios.</p>
         </div>
       </div>`;
   } else {
-    renderizarCards(elLista, visibles, { eliminable: true });
+    renderizarCards(elLista, visibles, { eliminable: true, animar: estado.primeraCarga });
   }
+  estado.primeraCarga = false;
 
   elResumen.textContent = `Mostrando ${visibles.length} de ${filtradas.length} noticia(s)`
     + (estado.categoria !== 'Todas' ? ` en ${estado.categoria}` : '');
@@ -139,21 +156,24 @@ elFiltros.addEventListener('click', (e) => {
   else url.searchParams.set('categoria', estado.categoria);
   history.replaceState(null, '', url);
 
-  renderizar();
+  // Las tarjetas que siguen visibles se deslizan a su nueva posición; las demás se desvanecen.
+  transicion(renderizar);
 });
 
+// La búsqueda se actualiza sin animación: al escribir rápido, animar cada tecla resultaría molesto.
 elBuscador.addEventListener('input', () => {
   estado.busqueda = elBuscador.value;
   estado.pagina = 1;
   renderizar();
 });
 
-elPaginacion.addEventListener('click', (e) => {
+elPaginacion.addEventListener('click', async (e) => {
   const boton = e.target.closest('[data-pagina]');
   if (!boton || boton.closest('.disabled')) return;
   estado.pagina = Number(boton.dataset.pagina);
-  renderizar();
-  elLista.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Primero se reemplazan las tarjetas con su transición y luego se lleva la vista al inicio del listado.
+  await transicion(renderizar);
+  elResumen.scrollIntoView({ behavior: 'smooth', block: 'center' });
 });
 
 /* ---------------------------------------------------------------------------
@@ -174,14 +194,15 @@ elLista.addEventListener('click', (e) => {
 document.getElementById('btn-confirmar-eliminar').addEventListener('click', async () => {
   eliminarNoticia(estado.idPorEliminar);
   quitarFavorito(estado.idPorEliminar); // Una noticia eliminada no debe seguir en favoritos.
-  modalEliminar.hide();
-  await recargar();
+  await cerrarModal('modal-eliminar');
+  // La tarjeta eliminada se desvanece y las siguientes ocupan su lugar.
+  await transicion(recargar);
   mostrarToast('Noticia eliminada del catálogo.', 'danger');
 });
 
 document.getElementById('btn-restablecer').addEventListener('click', async () => {
   restablecerCatalogo();
-  await recargar();
+  await transicion(recargar);
   mostrarToast('Se restableció el catálogo de ejemplo.', 'info');
 });
 
@@ -212,6 +233,8 @@ formPublicar.addEventListener('submit', async (e) => {
   // Validación nativa de HTML5 (required, minlength, maxlength) + estilos de Bootstrap.
   if (!formPublicar.checkValidity()) {
     formPublicar.classList.add('was-validated');
+    // Cada campo con error se sacude una vez para señalarlo.
+    formPublicar.querySelectorAll(':invalid').forEach((campo) => animar(campo, 'sacudir'));
     formPublicar.querySelector(':invalid')?.focus();
     return;
   }
@@ -221,14 +244,14 @@ formPublicar.addEventListener('submit', async (e) => {
 
   formPublicar.reset();
   formPublicar.classList.remove('was-validated');
-  modalPublicar.hide();
+  await cerrarModal('modal-publicar');
 
-  // Se muestra la nueva noticia al inicio del listado.
+  // Se muestra la nueva noticia al inicio del listado; las demás se desplazan para hacerle espacio.
   estado.categoria = 'Todas';
   estado.busqueda = '';
   estado.pagina = 1;
   elBuscador.value = '';
-  await recargar();
+  await transicion(recargar);
   mostrarToast(`Noticia publicada: ${noticia.titulo}`);
 });
 

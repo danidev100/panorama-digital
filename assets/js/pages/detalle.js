@@ -3,16 +3,32 @@
  * @description Vista de detalle: lee el id de la URL (detalle.html?id=3), muestra la
  * información completa de la noticia, permite agregarla o quitarla de favoritos y
  * lista noticias relacionadas de la misma categoría.
+ *
+ * Transición desde la tarjeta: la imagen principal (#detalle-imagen) ya existe en el HTML.
+ * Si el usuario llegó pulsando una tarjeta, su imagen se muestra de inmediato (antes de
+ * descargar el JSON) para que el navegador la anime desde la tarjeta hasta aquí.
  */
 import { iniciarLayout } from '../components/layout.js';
 import { renderizarCards } from '../components/card.js';
 import { obtenerNoticiaPorId, obtenerRelacionadas } from '../services/noticias.service.js';
 import { esFavorito, alternarFavorito } from '../services/favoritos.service.js';
+import { leer } from '../services/storage.service.js';
+import { CLAVE_IMAGEN, animar } from '../motion.js';
 import { obtenerParametro, escaparHTML, formatearFecha, slug, mostrarToast } from '../utils.js';
 
 iniciarLayout('');
 
 const elDetalle = document.getElementById('detalle-noticia');
+const elImagen = document.getElementById('detalle-imagen');
+const id = Number(obtenerParametro('id'));
+
+// Este bloque se ejecuta antes del primer cuadro (el script usa blocking="render"):
+// si venimos de una tarjeta de esta misma noticia, se muestra su imagen al instante.
+const imagenPrevia = leer(CLAVE_IMAGEN, null, sessionStorage);
+if (imagenPrevia?.id === id) {
+  elImagen.src = imagenPrevia.src;
+  elImagen.hidden = false;
+}
 
 /**
  * Devuelve el HTML del botón de favoritos según el estado actual.
@@ -28,8 +44,9 @@ function botonFavorito(activo) {
 /** Muestra un mensaje cuando el id no existe o fue eliminado. */
 function mostrarNoEncontrada() {
   document.title = 'Noticia no encontrada | Panorama Digital';
+  elImagen.hidden = true;
   elDetalle.innerHTML = `
-    <div class="estado-vacio">
+    <div class="estado-vacio entrada">
       <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
       <h1 class="h3 mt-3">Noticia no encontrada</h1>
       <p>Es posible que haya sido eliminada o que el enlace no sea correcto.</p>
@@ -43,23 +60,20 @@ function mostrarNoEncontrada() {
  */
 function renderizarNoticia(n) {
   document.title = `${n.titulo} | Panorama Digital`;
+
+  // Imagen principal y último elemento de las migas de pan.
+  elImagen.src = n.imagen;
+  elImagen.alt = `Imagen de la noticia: ${n.titulo}`;
+  elImagen.hidden = false;
+  document.getElementById('migas').insertAdjacentHTML('beforeend', `
+    <li class="breadcrumb-item active text-truncate" aria-current="page" style="max-width: 50ch">${escaparHTML(n.titulo)}</li>`);
+
   const parrafos = n.contenido.map((p) => `<p>${escaparHTML(p)}</p>`).join('');
   // Se prellena el asunto del formulario de contacto con el título de la noticia.
   const enlaceContacto = `contacto.html?asunto=${encodeURIComponent(`Consulta sobre: ${n.titulo}`)}`;
 
   elDetalle.innerHTML = `
-    <!-- Migas de pan (breadcrumb) -->
-    <nav aria-label="Ruta de navegación" class="migas mb-3">
-      <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="noticias.html">Noticias</a></li>
-        <li class="breadcrumb-item active text-truncate" aria-current="page" style="max-width: 50ch">${escaparHTML(n.titulo)}</li>
-      </ol>
-    </nav>
-
-    <img src="${escaparHTML(n.imagen)}" alt="Imagen de la noticia: ${escaparHTML(n.titulo)}" class="detalle-imagen mb-4">
-
-    <div class="row justify-content-center">
+    <div class="row justify-content-center entrada">
       <div class="col-lg-9">
         <span class="badge badge-categoria cat-${slug(n.categoria)} mb-3">${escaparHTML(n.categoria)}</span>
         <h1 class="detalle-titulo">${escaparHTML(n.titulo)}</h1>
@@ -87,13 +101,12 @@ function renderizarNoticia(n) {
     boton.innerHTML = botonFavorito(agregada);
     boton.className = `btn ${agregada ? 'btn-acento' : 'btn-outline-primary'}`;
     boton.setAttribute('aria-pressed', agregada);
+    animar(boton.querySelector('i'), 'pop'); // La estrella "late" para confirmar la acción.
     mostrarToast(agregada ? 'Noticia agregada a favoritos.' : 'Noticia retirada de favoritos.', agregada ? 'success' : 'info');
   });
 }
 
 async function iniciar() {
-  const id = Number(obtenerParametro('id'));
-
   try {
     const noticia = Number.isInteger(id) && id > 0 ? await obtenerNoticiaPorId(id) : undefined;
     if (!noticia) {
@@ -110,6 +123,7 @@ async function iniciar() {
     }
   } catch (error) {
     console.error(error);
+    elImagen.hidden = true;
     elDetalle.innerHTML = '<div class="alert alert-danger">No fue posible cargar la noticia.</div>';
   }
 }

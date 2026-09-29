@@ -14,15 +14,17 @@ import { esFavorito } from '../services/favoritos.service.js';
  * @param {Object} [opciones]
  * @param {boolean} [opciones.eliminable=false] - Muestra el botón de eliminar (Mini CRUD).
  * @param {boolean} [opciones.quitarFavorito=false] - Muestra el botón "Quitar" (página Favoritos).
+ * @param {boolean} [opciones.animar=true] - Aplica la animación de entrada en cascada.
+ * @param {number} [indice=0] - Posición de la tarjeta; define el retraso de su entrada.
  * @returns {string} HTML de la columna con la tarjeta.
  */
-export function crearCard(noticia, { eliminable = false, quitarFavorito = false } = {}) {
+export function crearCard(noticia, { eliminable = false, quitarFavorito = false, animar = true } = {}, indice = 0) {
   const favorito = esFavorito(noticia.id);
   const enlace = `detalle.html?id=${noticia.id}`;
 
   return `
     <div class="col">
-      <article class="card card-noticia h-100" data-id="${noticia.id}">
+      <article class="card card-noticia h-100 ${animar ? 'entrada' : ''}" data-id="${noticia.id}" style="--i: ${indice}">
         <a href="${enlace}" class="card-img-wrap" tabindex="-1" aria-hidden="true">
           <img src="${escaparHTML(noticia.imagen)}" class="card-img-top" alt="" loading="lazy">
         </a>
@@ -64,5 +66,5 @@ export function crearCard(noticia, { eliminable = false, quitarFavorito = false 
  * @param {Object} [opciones] - Mismas opciones de crearCard.
  */
 export function renderizarCards(contenedor, noticias, opciones) {
-  contenedor.innerHTML = noticias.map((n) => crearCard(n, opciones)).join('');
+  contenedor.innerHTML = noticias.map((n, i) => crearCard(n, opciones, i)).join('');
 }

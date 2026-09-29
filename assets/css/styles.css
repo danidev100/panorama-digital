@@ -107,15 +107,12 @@ a:focus-visible, button:focus-visible, .form-control:focus-visible {
 }
 
 /* 3. Header / navegación -------------------------------------------------- */
+/* El subrayado animado de la opción activa está en motion.css */
 .navbar .nav-link {
   font-weight: 500;
   padding: .5rem .9rem !important;
-  border-bottom: 3px solid transparent;
 }
-.navbar .nav-link.active {
-  color: #fff !important;
-  border-bottom-color: var(--pd-acento);
-}
+.navbar .nav-link.active { color: #fff !important; }
 
 /* 4. Hero ----------------------------------------------------------------- */
 .hero {

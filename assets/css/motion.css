@@ -1,0 +1,205 @@
+/* ==========================================================================
+   Panorama Digital — Sistema de movimiento (microinteracciones y transiciones)
+   --------------------------------------------------------------------------
+   Principios:
+     • Sobrio: desplazamientos cortos (≤ 12 px), sin rebotes exagerados.
+     • Rápido: 120–320 ms; las salidas son más cortas que las entradas.
+     • Con propósito: el movimiento explica qué cambió (qué entra, qué sale, qué se mueve).
+     • Accesible: todo se desactiva con "prefers-reduced-motion: reduce".
+     • Progresivo: si el navegador no soporta View Transitions, la navegación
+       funciona igual, solo que sin animación.
+   Estructura:
+     1. Tokens de movimiento
+     2. Transiciones entre páginas (View Transitions entre documentos)
+     3. Imagen compartida tarjeta → detalle
+     4. Transiciones dentro de la página (filtros, paginación, CRUD)
+     5. Entrada de contenido (tarjetas escalonadas, hero, secciones al hacer scroll)
+     6. Microinteracciones (botones, navegación, favoritos, formularios, modales, toasts)
+     7. Movimiento reducido
+   ========================================================================== */
+
+/* 1. Tokens de movimiento ------------------------------------------------- */
+:root {
+  /* Duraciones */
+  --mov-rapido: 120ms;   /* respuesta inmediata: presionar un botón, hover */
+  --mov-base: 200ms;     /* cambios de estado: filtros, toasts, iconos */
+  --mov-lento: 320ms;    /* elementos que entran o recorren distancia: páginas, imagen compartida */
+
+  /* Curvas de aceleración */
+  --ease-estandar: cubic-bezier(0.2, 0, 0, 1);  /* se mueve dentro de la pantalla */
+  --ease-entrada: cubic-bezier(0, 0, 0, 1);     /* aparece: arranca rápido y frena suave */
+  --ease-salida: cubic-bezier(0.3, 0, 1, 1);    /* desaparece: acelera al irse */
+}
+
+/* 2. Transiciones entre páginas ------------------------------------------ */
+/* Activa la transición automática en navegaciones del mismo sitio (MPA). */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+
+/* El header se mantiene fijo entre páginas: no parpadea al navegar. */
+#app-header .navbar { view-transition-name: encabezado; }
+
+/* Mientras el componente dibuja el header, se reserva su espacio y color
+   para evitar saltos de diseño. El contenedor es el que se fija arriba: "sticky"
+   en el <nav> no bastaba, porque su contenedor tenía su misma altura. */
+#app-header {
+  min-height: 62px;
+  background-color: var(--pd-primario);
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+}
+
+/* La página anterior se desvanece rápido y la nueva entra con un leve ascenso. */
+::view-transition-old(root) {
+  animation: var(--mov-rapido) var(--ease-salida) both mov-desvanecer;
+}
+::view-transition-new(root) {
+  animation: var(--mov-lento) var(--ease-entrada) both mov-entrar-pagina;
+}
+
+/* Todos los elementos con nombre propio se desplazan con la curva estándar. */
+::view-transition-group(*) {
+  animation-duration: var(--mov-lento);
+  animation-timing-function: var(--ease-estandar);
+}
+
+/* 3. Imagen compartida tarjeta → detalle --------------------------------- */
+/* La imagen de la tarjeta pulsada "crece" hasta convertirse en la imagen del detalle. */
+#detalle-imagen { view-transition-name: noticia-imagen; }
+
+::view-transition-group(noticia-imagen) {
+  border-radius: var(--pd-radio);
+  overflow: hidden;
+}
+/* Las dos capturas tienen proporciones distintas (16:9 y 16:7): se recortan en lugar de deformarse. */
+::view-transition-old(noticia-imagen),
+::view-transition-new(noticia-imagen) {
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 4. Transiciones dentro de la página ------------------------------------ */
+/* En filtros, paginación y CRUD solo se animan las tarjetas (que se reacomodan);
+   el resto de la página cambia sin desvanecerse. La clase la pone motion.js. */
+html.vt-local::view-transition-old(root),
+html.vt-local::view-transition-new(root) {
+  animation: none;
+}
+html.vt-local::view-transition-group(*) { animation-duration: var(--mov-base); }
+
+/* 5. Entrada de contenido ------------------------------------------------ */
+/* Tarjetas: aparecen en cascada. El índice --i lo asigna el componente card.js.
+   Se usa "backwards" (no "both") para que, al terminar, la animación suelte la propiedad
+   transform y el efecto hover de la tarjeta siga funcionando con su transición. */
+.entrada {
+  animation: mov-aparecer var(--mov-lento) var(--ease-entrada) backwards;
+  animation-delay: calc(min(var(--i, 0), 8) * 45ms);
+}
+
+/* Hero del inicio: título, texto y botones entran uno tras otro. */
+.hero .container > * { animation: mov-aparecer var(--mov-lento) var(--ease-entrada) both; }
+.hero .container > :nth-child(2) { animation-delay: 60ms; }
+.hero .container > :nth-child(3) { animation-delay: 120ms; }
+.hero .container > :nth-child(4) { animation-delay: 180ms; }
+
+/* Secciones que se revelan al entrar en pantalla (data-revelar).
+   Solo se ocultan si JavaScript está activo, para no perder contenido si falla. */
+html.js-movimiento [data-revelar] {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity var(--mov-lento) var(--ease-entrada), transform var(--mov-lento) var(--ease-entrada);
+}
+html.js-movimiento [data-revelar].visible { opacity: 1; transform: none; }
+
+/* 6. Microinteracciones -------------------------------------------------- */
+
+/* Botones: cambio de color suave y "hundimiento" leve al presionar. */
+.btn, .btn-filtro, .page-link {
+  transition:
+    color var(--mov-rapido) var(--ease-estandar),
+    background-color var(--mov-rapido) var(--ease-estandar),
+    border-color var(--mov-rapido) var(--ease-estandar),
+    box-shadow var(--mov-base) var(--ease-estandar),
+    transform var(--mov-rapido) var(--ease-estandar);
+}
+.btn:active:not(:disabled), .btn-filtro:active, .page-link:active { transform: scale(0.97); }
+.btn-filtro:hover:not(.activo) { border-color: var(--pd-primario); color: var(--pd-primario); }
+
+/* Menú: el subrayado ámbar crece desde el centro en lugar de aparecer de golpe. */
+.navbar .nav-link { position: relative; transition: color var(--mov-base) var(--ease-estandar); }
+.navbar .nav-link::after {
+  content: '';
+  position: absolute;
+  left: .9rem;
+  right: .9rem;
+  bottom: 0;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--pd-acento);
+  transform: scaleX(0);
+  transition: transform var(--mov-base) var(--ease-estandar);
+}
+.navbar .nav-link:hover::after { transform: scaleX(0.5); }
+.navbar .nav-link.active::after { transform: scaleX(1); }
+
+/* Tarjetas: la elevación ya existe en styles.css; aquí se unifica su ritmo. */
+.card-noticia, .card-categoria {
+  transition: transform var(--mov-base) var(--ease-estandar), box-shadow var(--mov-base) var(--ease-estandar);
+}
+.card-img-top { transition: transform var(--mov-lento) var(--ease-estandar); }
+
+/* Favoritos: la estrella "late" al marcarse y el contador del menú rebota. */
+.pop { animation: mov-pop var(--mov-lento) var(--ease-estandar); }
+.rebote { animation: mov-rebote var(--mov-lento) var(--ease-estandar); }
+.badge-favorito { animation: mov-escalar-entrada var(--mov-base) var(--ease-entrada) both; }
+
+/* Formularios: el campo inválido se sacude una vez y el mensaje de error se despliega. */
+.form-control, .form-select {
+  transition: border-color var(--mov-base) var(--ease-estandar), box-shadow var(--mov-base) var(--ease-estandar);
+}
+.sacudir { animation: mov-sacudir 280ms var(--ease-estandar); }
+.invalid-feedback:not(:empty) { animation: mov-desplegar var(--mov-base) var(--ease-entrada); }
+.desplegar { animation: mov-desplegar var(--mov-lento) var(--ease-entrada); }
+
+/* Modales: entran con un leve ascenso y escala, en lugar de caer desde arriba. */
+.modal.fade .modal-dialog {
+  transform: translateY(16px) scale(0.98);
+  transition: transform var(--mov-lento) var(--ease-estandar);
+}
+.modal.show .modal-dialog { transform: none; }
+
+/* Toasts: suben desde abajo. */
+.toast.show { animation: mov-aparecer var(--mov-base) var(--ease-entrada); }
+
+/* Esqueletos de carga: se desvanecen cuando llega el contenido real. */
+.skeleton { animation: brillo 1.2s infinite, mov-desvanecer-entrada var(--mov-base) var(--ease-entrada); }
+
+/* Keyframes --------------------------------------------------------------- */
+@keyframes mov-desvanecer { to { opacity: 0; } }
+@keyframes mov-desvanecer-entrada { from { opacity: 0; } }
+@keyframes mov-entrar-pagina { from { opacity: 0; transform: translateY(10px); } }
+@keyframes mov-aparecer { from { opacity: 0; transform: translateY(12px); } }
+@keyframes mov-escalar-entrada { from { opacity: 0; transform: scale(0.6); } }
+@keyframes mov-desplegar { from { opacity: 0; transform: translateY(-6px); } }
+@keyframes mov-pop { 40% { transform: scale(1.35); } 100% { transform: scale(1); } }
+@keyframes mov-rebote { 40% { transform: scale(1.3); } 100% { transform: scale(1); } }
+@keyframes mov-sacudir {
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+/* 7. Movimiento reducido -------------------------------------------------- */
+/* Para quienes configuraron su sistema para reducir el movimiento: los cambios
+   ocurren al instante y el contenido que se revelaba al hacer scroll se muestra de una vez. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after, ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  html.js-movimiento [data-revelar] { opacity: 1; transform: none; }
+}

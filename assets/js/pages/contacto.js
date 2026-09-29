@@ -11,6 +11,7 @@
 import { iniciarLayout } from '../components/layout.js';
 import { leer, guardar } from '../services/storage.service.js';
 import { obtenerParametro } from '../utils.js';
+import { animar } from '../motion.js';
 
 iniciarLayout('contacto');
 
@@ -84,6 +85,8 @@ form.addEventListener('submit', (e) => {
   // Se validan todos los campos (sin cortocircuito) para mostrar todos los errores a la vez.
   const resultados = Object.keys(REGLAS).map(validarCampo);
   if (resultados.includes(false)) {
+    // Los campos con error se sacuden una vez para señalarlos.
+    form.querySelectorAll('.is-invalid').forEach((campo) => animar(campo, 'sacudir'));
     form.querySelector('.is-invalid')?.focus();
     return;
   }
@@ -98,6 +101,7 @@ form.addEventListener('submit', (e) => {
   document.getElementById('texto-confirmacion').textContent =
     `Gracias, ${datos.nombre.trim()}. Recibimos tu mensaje y te responderemos a ${datos.correo.trim()}.`;
   confirmacion.classList.remove('d-none');
+  animar(confirmacion, 'desplegar'); // El mensaje se despliega suavemente.
   confirmacion.focus();
 
   // Se limpia el formulario y los estilos de validación.

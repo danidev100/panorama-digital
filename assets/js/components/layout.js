@@ -6,6 +6,7 @@
  * <app-header> y <app-footer>.
  */
 import { obtenerFavoritos, EVENTO_CAMBIO } from '../services/favoritos.service.js';
+import { iniciarMovimiento, animar } from '../motion.js';
 
 /** Elementos del menú principal (mínimo 5 páginas, según el requerimiento). */
 const MENU = [
@@ -54,10 +55,13 @@ export function renderizarHeader(paginaActiva) {
       </div>
     </nav>`;
 
-  // Mantiene sincronizado el contador de favoritos cuando cambia la lista.
+  // Mantiene sincronizado el contador de favoritos cuando cambia la lista,
+  // con un pequeño rebote que confirma visualmente el cambio.
   document.addEventListener(EVENTO_CAMBIO, (evento) => {
     const contador = document.getElementById('contador-favoritos');
-    if (contador) contador.textContent = evento.detail.length;
+    if (!contador) return;
+    contador.textContent = evento.detail.length;
+    animar(contador, 'rebote');
   });
 }
 
@@ -113,10 +117,11 @@ export function renderizarFooter() {
 }
 
 /**
- * Inicializa el layout común de cualquier página.
+ * Inicializa el layout común de cualquier página y activa el sistema de movimiento.
  * @param {string} paginaActiva - id de la página actual.
  */
 export function iniciarLayout(paginaActiva) {
   renderizarHeader(paginaActiva);
   renderizarFooter();
+  iniciarMovimiento();
 }

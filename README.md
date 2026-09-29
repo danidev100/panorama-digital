@@ -45,9 +45,11 @@ panorama-digital/
 │   └── noticias.json     Catálogo base de noticias
 └── assets/
     ├── css/styles.css    Estilos propios sobre Bootstrap
+    ├── css/motion.css    Tokens de movimiento, transiciones y microinteracciones
     ├── img/              Logo e ilustraciones SVG
     └── js/
         ├── utils.js      Utilidades (escape HTML, fechas, toasts)
+        ├── motion.js     Sistema de movimiento (transiciones y microinteracciones)
         ├── services/     Datos y almacenamiento (storage, noticias, favoritos)
         ├── components/   Piezas reutilizables (header/footer, tarjeta)
         └── pages/        Lógica de cada página
@@ -55,6 +57,26 @@ panorama-digital/
 
 La separación en `services`, `components` y `pages` anticipa la migración a Angular de la entrega final:
 cada servicio se convertirá en un `@Injectable` y cada componente en un componente de Angular.
+
+## Sistema de movimiento
+
+Las transiciones y microinteracciones están en `assets/css/motion.css` y `assets/js/motion.js`.
+Siguen cuatro principios: movimiento **sobrio** (desplazamientos ≤ 12 px), **rápido** (120–320 ms),
+**con propósito** (explica qué entra, qué sale y qué se mueve) y **accesible**.
+
+| Momento | Comportamiento |
+|---|---|
+| Navegar entre páginas | View Transitions entre documentos: la página sale con un fundido corto y la nueva entra con un leve ascenso; el header permanece fijo. |
+| Tarjeta → detalle | La imagen de la tarjeta pulsada crece hasta ocupar la cabecera del detalle. |
+| Filtros, paginación, crear y eliminar | Las tarjetas que permanecen se deslizan a su nueva posición; las que salen se desvanecen. |
+| Carga de contenido | Tarjetas en cascada, hero escalonado y secciones que se revelan al hacer scroll. |
+| Botones y menú | Presión leve al hacer clic y subrayado del menú que crece desde el centro. |
+| Favoritos | La estrella late y el contador del menú rebota. |
+| Formularios | Los campos con error se sacuden una vez y la confirmación se despliega. |
+
+Es una **mejora progresiva**: Chrome, Edge y Safari 18.2+ muestran las transiciones entre páginas y
+los demás navegadores navegan con normalidad. Con la preferencia del sistema *reducir movimiento*
+activada, todos los cambios ocurren al instante.
 
 ## Cómo ejecutarlo localmente
 
