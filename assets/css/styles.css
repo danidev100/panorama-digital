@@ -232,8 +232,14 @@ a:focus-visible, button:focus-visible, .form-control:focus-visible {
   background: #fff;
   border: 2px dashed var(--pd-borde);
   border-radius: var(--pd-radio);
+  max-width: 640px;     /* Ancho cómodo de lectura, centrado en la página */
+  margin-inline: auto;
 }
 .estado-vacio i { font-size: 3rem; color: var(--pd-acento); }
+
+/* En las rejillas row-cols-* Bootstrap fuerza a cada hijo a 1/3 del ancho en escritorio,
+   lo que anula .col-12. Los mensajes de estado (vacío, error) deben ocupar toda la fila. */
+.row[class*="row-cols"] > .col-12 { width: 100%; }
 
 /* 8. Detalle de noticia --------------------------------------------------- */
 .detalle-imagen {
