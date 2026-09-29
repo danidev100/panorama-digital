@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Listado completo de noticias de Panorama Digital, con filtros por categoría y búsqueda.">
+  <title>Noticias | Panorama Digital</title>
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="assets/css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <header id="app-header"></header>
+
+  <main>
+    <!-- Encabezado de la página -->
+    <section class="encabezado-pagina">
+      <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+          <h1>Todas las noticias</h1>
+          <p>Explora, filtra y gestiona el catálogo de noticias.</p>
+        </div>
+        <!-- Botón del Mini CRUD: abre el formulario para crear una noticia -->
+        <button type="button" class="btn btn-acento" data-bs-toggle="modal" data-bs-target="#modal-publicar">
+          <i class="bi bi-plus-lg me-1"></i>Publicar noticia
+        </button>
+      </div>
+    </section>
+
+    <div class="container">
+      <!-- ===== Barra de filtros: categorías + buscador ===== -->
+      <section class="barra-filtros mb-4" aria-label="Filtros de noticias">
+        <div class="row g-3 align-items-center">
+          <div class="col-lg-8">
+            <span class="fw-semibold me-2">Filtrar por categoría:</span>
+            <div id="filtros-categoria" class="d-inline-flex flex-wrap gap-2 mt-2 mt-lg-0" role="group" aria-label="Categorías">
+              <!-- Botones generados desde JavaScript -->
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <label for="buscador" class="visually-hidden">Buscar noticias</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+              <input type="search" id="buscador" class="form-control" placeholder="Buscar por título o resumen…">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Resumen de resultados -->
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+        <p id="resumen-resultados" class="text-secondary mb-0" aria-live="polite">Cargando noticias…</p>
+        <button type="button" id="btn-restablecer" class="btn btn-link btn-sm text-secondary p-0">
+          <i class="bi bi-arrow-counterclockwise me-1"></i>Restablecer catálogo de ejemplo
+        </button>
+      </div>
+
+      <!-- ===== Grid de tarjetas (renderizado dinámico desde JSON) ===== -->
+      <div id="lista-noticias" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="col"><div class="skeleton"></div></div>
+        <div class="col"><div class="skeleton"></div></div>
+        <div class="col"><div class="skeleton"></div></div>
+      </div>
+
+      <!-- ===== Paginación ===== -->
+      <nav class="mt-4" aria-label="Paginación de noticias">
+        <ul id="paginacion" class="pagination justify-content-center"></ul>
+      </nav>
+    </div>
+  </main>
+
+  <footer id="app-footer"></footer>
+
+  <!-- ===== Modal del Mini CRUD: crear noticia ===== -->
+  <div class="modal fade" id="modal-publicar" tabindex="-1" aria-labelledby="titulo-modal-publicar" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <form class="modal-content" id="form-publicar" novalidate>
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="titulo-modal-publicar"><i class="bi bi-pencil-square me-2"></i>Publicar nueva noticia</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label for="pub-titulo" class="form-label">Título *</label>
+              <input type="text" class="form-control" id="pub-titulo" name="titulo" required minlength="10" maxlength="120">
+              <div class="invalid-feedback">El título es obligatorio y debe tener entre 10 y 120 caracteres.</div>
+            </div>
+            <div class="col-md-4">
+              <label for="pub-categoria" class="form-label">Categoría *</label>
+              <select class="form-select" id="pub-categoria" name="categoria" required>
+                <option value="">Selecciona…</option>
+              </select>
+              <div class="invalid-feedback">Selecciona una categoría.</div>
+            </div>
+            <div class="col-12">
+              <label for="pub-resumen" class="form-label">Descripción breve *</label>
+              <input type="text" class="form-control" id="pub-resumen" name="resumen" required minlength="20" maxlength="180">
+              <div class="invalid-feedback">La descripción es obligatoria (entre 20 y 180 caracteres).</div>
+            </div>
+            <div class="col-12">
+              <label for="pub-contenido" class="form-label">Contenido completo *</label>
+              <textarea class="form-control" id="pub-contenido" name="contenido" rows="5" required minlength="50"
+                        aria-describedby="ayuda-contenido"></textarea>
+              <div id="ayuda-contenido" class="form-text">Usa un salto de línea para separar párrafos.</div>
+              <div class="invalid-feedback">El contenido es obligatorio (mínimo 50 caracteres).</div>
+            </div>
+            <div class="col-md-6">
+              <label for="pub-autor" class="form-label">Autor</label>
+              <input type="text" class="form-control" id="pub-autor" name="autor" maxlength="60" placeholder="Colaborador invitado">
+            </div>
+            <div class="col-md-6">
+              <label for="pub-imagen" class="form-label">URL de la imagen</label>
+              <input type="url" class="form-control" id="pub-imagen" name="imagen" placeholder="https://…">
+              <div class="form-text">Opcional. Si la dejas vacía se usa la ilustración de la categoría.</div>
+              <div class="invalid-feedback">Ingresa una URL válida que empiece por http:// o https://.</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-send me-1"></i>Publicar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== Modal de confirmación para eliminar ===== -->
+  <div class="modal fade" id="modal-eliminar" tabindex="-1" aria-labelledby="titulo-modal-eliminar" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="titulo-modal-eliminar"><i class="bi bi-exclamation-triangle text-danger me-2"></i>Eliminar noticia</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          ¿Seguro que deseas eliminar <strong id="eliminar-titulo"></strong>? Esta acción la quitará del catálogo.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="btn-confirmar-eliminar"><i class="bi bi-trash3 me-1"></i>Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="assets/js/pages/noticias.js"></script>
+</body>
+</html>

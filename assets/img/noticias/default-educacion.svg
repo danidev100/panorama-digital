@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="Ilustración de la categoría Educación"><defs><linearGradient id="deducacion" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#6D28D9"/><stop offset="1" stop-color="#A78BFA"/></linearGradient></defs>
+<rect width="800" height="450" fill="url(#deducacion)"/><g transform="translate(400 240)">
+<path d="M-210 -90 Q-105 -130 0 -90 L0 120 Q-105 80 -210 120 Z" fill="#fff" fill-opacity=".92"/>
+<path d="M210 -90 Q105 -130 0 -90 L0 120 Q105 80 210 120 Z" fill="#fff" fill-opacity=".78"/>
+<rect x="-180" y="-60" width="140" height="8" rx="4" fill="#7C3AED" fill-opacity=".35"/><rect x="-180" y="-30" width="140" height="8" rx="4" fill="#7C3AED" fill-opacity=".35"/><rect x="-180" y="0" width="140" height="8" rx="4" fill="#7C3AED" fill-opacity=".35"/><rect x="-180" y="30" width="140" height="8" rx="4" fill="#7C3AED" fill-opacity=".35"/><rect x="-180" y="60" width="140" height="8" rx="4" fill="#7C3AED" fill-opacity=".35"/>
+<rect x="40" y="-60" width="140" height="8" rx="4" fill="#7C3AED" fill-opacity=".25"/><rect x="40" y="-30" width="140" height="8" rx="4" fill="#7C3AED" fill-opacity=".25"/><rect x="40" y="0" width="140" height="8" rx="4" fill="#7C3AED" fill-opacity=".25"/><rect x="40" y="30" width="140" height="8" rx="4" fill="#7C3AED" fill-opacity=".25"/><rect x="40" y="60" width="140" height="8" rx="4" fill="#7C3AED" fill-opacity=".25"/>
+</g>
+<circle cx="130" cy="100" r="34" fill="#fff" fill-opacity=".3"/></svg>

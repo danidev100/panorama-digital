@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="Ilustración de la categoría Turismo"><defs><linearGradient id="g5" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#115E59"/><stop offset="1" stop-color="#34D399"/></linearGradient></defs>
+<rect width="800" height="450" fill="url(#g5)"/><circle cx="180" cy="120" r="55" fill="#FDE68A"/>
+<path d="M0 360 L180 170 L330 330 L470 190 L800 380 L800 450 L0 450 Z" fill="#fff" fill-opacity=".35"/>
+<path d="M0 400 L220 250 L380 390 L560 240 L800 420 L800 450 L0 450 Z" fill="#fff" fill-opacity=".6"/>
+<path d="M0 430 Q200 400 400 430 T800 430 L800 450 L0 450 Z" fill="#fff" fill-opacity=".85"/></svg>

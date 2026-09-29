@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "titulo": "Medellín abre su primer laboratorio público de inteligencia artificial",
+    "resumen": "El nuevo espacio ofrecerá formación gratuita y acceso a equipos de cómputo para emprendedores y estudiantes.",
+    "contenido": [
+      "La ciudad inauguró un laboratorio público dedicado a la inteligencia artificial, pensado para que estudiantes, emprendedores y pequeñas empresas puedan experimentar con herramientas de aprendizaje automático sin necesidad de invertir en infraestructura propia.",
+      "El espacio cuenta con estaciones de trabajo, talleres semanales y un programa de mentorías en el que profesionales del sector acompañan proyectos durante tres meses.",
+      "Según los organizadores, la meta del primer año es apoyar a más de 200 iniciativas locales, con énfasis en soluciones para salud, movilidad y agricultura."
+    ],
+    "categoria": "Tecnología",
+    "imagen": "assets/img/noticias/noticia-1.svg",
+    "fecha": "2026-09-22",
+    "autor": "Redacción Panorama",
+    "destacada": true
+  },
+  {
+    "id": 2,
+    "titulo": "Cinco claves para proteger tus cuentas con autenticación en dos pasos",
+    "resumen": "Una guía práctica para activar la verificación en dos pasos y reducir el riesgo de robo de cuentas.",
+    "contenido": [
+      "La autenticación en dos pasos añade una capa de seguridad adicional a la contraseña: además de lo que sabes, el servicio verifica algo que tienes, como tu teléfono o una llave física.",
+      "Los expertos recomiendan preferir aplicaciones autenticadoras sobre los códigos por SMS, guardar los códigos de respaldo en un lugar seguro y revisar periódicamente los dispositivos con sesión activa.",
+      "Activarla en el correo electrónico es el primer paso, porque es la puerta de entrada para recuperar casi todas las demás cuentas."
+    ],
+    "categoria": "Tecnología",
+    "imagen": "assets/img/noticias/noticia-2.svg",
+    "fecha": "2026-09-18",
+    "autor": "Laura Gómez",
+    "destacada": false
+  },
+  {
+    "id": 3,
+    "titulo": "Los desarrolladores web apuestan por sitios más ligeros y accesibles",
+    "resumen": "La velocidad de carga y la accesibilidad se consolidan como prioridades en el desarrollo de sitios modernos.",
+    "contenido": [
+      "Cada vez más equipos de desarrollo miden el éxito de un sitio no solo por su apariencia, sino por la rapidez con la que carga en conexiones móviles y por qué tan fácil es de usar para personas con discapacidad.",
+      "Prácticas como optimizar imágenes, reducir el JavaScript innecesario y usar etiquetas HTML semánticas se han vuelto parte del flujo de trabajo habitual.",
+      "Las guías de accesibilidad WCAG sirven como referencia para garantizar contrastes adecuados, navegación con teclado y textos alternativos en las imágenes."
+    ],
+    "categoria": "Tecnología",
+    "imagen": "assets/img/noticias/noticia-3.svg",
+    "fecha": "2026-09-10",
+    "autor": "Andrés Restrepo",
+    "destacada": false
+  },
+  {
+    "id": 4,
+    "titulo": "Guatapé renueva sus senderos ecológicos para la temporada de fin de año",
+    "resumen": "El municipio habilitó nuevas rutas señalizadas y miradores alrededor del embalse.",
+    "contenido": [
+      "Guatapé presentó la renovación de sus senderos ecológicos, que ahora incluyen señalización interpretativa, zonas de descanso y tres nuevos miradores con vista al embalse.",
+      "Las autoridades locales invitan a los visitantes a recorrer las rutas con guías certificados y a respetar la capacidad de carga de cada sendero.",
+      "La iniciativa busca diversificar la oferta turística más allá de la tradicional subida a la Piedra del Peñol."
+    ],
+    "categoria": "Turismo",
+    "imagen": "assets/img/noticias/noticia-4.svg",
+    "fecha": "2026-09-20",
+    "autor": "Redacción Panorama",
+    "destacada": true
+  },
+  {
+    "id": 5,
+    "titulo": "Turismo de naturaleza: el Eje Cafetero lidera las preferencias de viaje",
+    "resumen": "Las fincas cafeteras y los paisajes de montaña atraen a viajeros nacionales y extranjeros.",
+    "contenido": [
+      "El Eje Cafetero se mantiene como uno de los destinos favoritos para quienes buscan experiencias de naturaleza, con recorridos por fincas, avistamiento de aves y caminatas por el valle de Cocora.",
+      "Los operadores turísticos destacan el crecimiento de las experiencias de catación de café, en las que los visitantes participan en todo el proceso, desde la recolección hasta la taza.",
+      "La recomendación para los viajeros es reservar con anticipación en temporada alta y preferir operadores locales."
+    ],
+    "categoria": "Turismo",
+    "imagen": "assets/img/noticias/noticia-5.svg",
+    "fecha": "2026-09-14",
+    "autor": "Camila Ortiz",
+    "destacada": false
+  },
+  {
+    "id": 6,
+    "titulo": "Guía para viajar por la costa Caribe con presupuesto ajustado",
+    "resumen": "Consejos para planear un viaje económico sin renunciar a las mejores playas.",
+    "contenido": [
+      "Viajar por la costa Caribe colombiana no tiene por qué ser costoso. Elegir fechas por fuera de la temporada alta puede reducir el precio del alojamiento de forma considerable.",
+      "Moverse en transporte intermunicipal, alojarse en hostales y comer en mercados locales son algunas de las estrategias más recomendadas por viajeros frecuentes.",
+      "También conviene informarse sobre las tarifas de ingreso a parques naturales y playas protegidas antes de salir."
+    ],
+    "categoria": "Turismo",
+    "imagen": "assets/img/noticias/noticia-6.svg",
+    "fecha": "2026-09-05",
+    "autor": "Redacción Panorama",
+    "destacada": false
+  },
+  {
+    "id": 7,
+    "titulo": "Crece la oferta de cursos virtuales gratuitos en programación",
+    "resumen": "Universidades y plataformas abiertas amplían sus programas de formación en desarrollo de software.",
+    "contenido": [
+      "La demanda de talento en desarrollo de software ha impulsado a universidades y plataformas en línea a ampliar su oferta de cursos gratuitos, desde fundamentos de HTML y CSS hasta frameworks como Angular.",
+      "Los expertos recomiendan combinar estos cursos con proyectos prácticos y publicarlos en un repositorio de GitHub, ya que un portafolio visible es clave al buscar empleo.",
+      "Muchos de estos programas ofrecen certificados verificables al completar evaluaciones finales."
+    ],
+    "categoria": "Educación",
+    "imagen": "assets/img/noticias/noticia-7.svg",
+    "fecha": "2026-09-21",
+    "autor": "Daniela Muñoz",
+    "destacada": true
+  },
+  {
+    "id": 8,
+    "titulo": "Bibliotecas públicas se transforman en centros de innovación comunitaria",
+    "resumen": "Además de libros, ahora ofrecen talleres de robótica, impresión 3D y alfabetización digital.",
+    "contenido": [
+      "Las bibliotecas públicas de varias ciudades del país están ampliando su papel tradicional para convertirse en espacios de innovación, con salas de fabricación digital y talleres para todas las edades.",
+      "Los programas de alfabetización digital para adultos mayores se encuentran entre los más solicitados.",
+      "La inscripción a la mayoría de actividades es gratuita y se realiza directamente en cada sede."
+    ],
+    "categoria": "Educación",
+    "imagen": "assets/img/noticias/noticia-8.svg",
+    "fecha": "2026-09-12",
+    "autor": "Redacción Panorama",
+    "destacada": false
+  },
+  {
+    "id": 9,
+    "titulo": "Técnicas de estudio que realmente funcionan, según la evidencia",
+    "resumen": "La práctica de recuperación y el estudio espaciado superan a la relectura tradicional.",
+    "contenido": [
+      "Investigaciones en psicología educativa coinciden en que algunas técnicas de estudio son mucho más eficaces que otras. La práctica de recuperación, que consiste en ponerse a prueba sin mirar los apuntes, es una de las mejor valoradas.",
+      "El estudio espaciado, es decir, repartir las sesiones en varios días en lugar de concentrarlas la noche anterior, mejora la retención a largo plazo.",
+      "Por el contrario, subrayar y releer dan una sensación de dominio que no siempre se traduce en aprendizaje real."
+    ],
+    "categoria": "Educación",
+    "imagen": "assets/img/noticias/noticia-9.svg",
+    "fecha": "2026-09-03",
+    "autor": "Santiago Pérez",
+    "destacada": false
+  },
+  {
+    "id": 10,
+    "titulo": "Emprendimientos locales encuentran en el comercio electrónico una vía de crecimiento",
+    "resumen": "Pequeños negocios reportan nuevas ventas al integrar tiendas en línea y pagos digitales.",
+    "contenido": [
+      "Cada vez más pequeños negocios del país venden a través de tiendas en línea y redes sociales, lo que les permite llegar a clientes fuera de su barrio o ciudad.",
+      "Los pagos digitales y los servicios de mensajería han reducido las barreras de entrada al comercio electrónico.",
+      "Los asesores recomiendan empezar con un catálogo pequeño, fotografías de buena calidad y políticas de envío claras."
+    ],
+    "categoria": "Negocios",
+    "imagen": "assets/img/noticias/noticia-10.svg",
+    "fecha": "2026-09-19",
+    "autor": "Redacción Panorama",
+    "destacada": true
+  },
+  {
+    "id": 11,
+    "titulo": "Cómo construir un presupuesto personal en cinco pasos",
+    "resumen": "Organizar ingresos y gastos es el primer paso para alcanzar metas financieras.",
+    "contenido": [
+      "Un presupuesto personal permite saber a dónde va el dinero cada mes. El primer paso es registrar todos los ingresos y gastos durante al menos treinta días.",
+      "Luego se clasifican los gastos en fijos y variables, se define un porcentaje para el ahorro y se buscan oportunidades de recorte.",
+      "Revisar el presupuesto cada mes ayuda a ajustarlo a los cambios y a mantener el hábito."
+    ],
+    "categoria": "Negocios",
+    "imagen": "assets/img/noticias/noticia-11.svg",
+    "fecha": "2026-09-08",
+    "autor": "Valentina Ríos",
+    "destacada": false
+  },
+  {
+    "id": 12,
+    "titulo": "El trabajo remoto redefine las oficinas en las grandes ciudades",
+    "resumen": "Las empresas adoptan modelos híbridos y espacios de coworking más flexibles.",
+    "contenido": [
+      "Tras varios años de experiencia con el trabajo remoto, muchas empresas han optado por esquemas híbridos que combinan días en casa con días en la oficina.",
+      "Esto ha impulsado la demanda de espacios de coworking y de oficinas más pequeñas, diseñadas para reuniones y trabajo colaborativo.",
+      "Los especialistas señalan que el éxito del modelo depende de acuerdos claros sobre horarios, comunicación y objetivos."
+    ],
+    "categoria": "Negocios",
+    "imagen": "assets/img/noticias/noticia-12.svg",
+    "fecha": "2026-09-01",
+    "autor": "Redacción Panorama",
+    "destacada": false
+  }
+]

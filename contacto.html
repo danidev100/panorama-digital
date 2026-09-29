@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contacta al equipo editorial de Panorama Digital.">
+  <title>Contacto | Panorama Digital</title>
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="assets/css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <header id="app-header"></header>
+
+  <main>
+    <section class="encabezado-pagina">
+      <div class="container">
+        <h1>Contáctanos</h1>
+        <p>¿Tienes una pregunta, una sugerencia o una historia? Escríbenos y te responderemos pronto.</p>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="row g-4">
+        <!-- ===== Formulario de contacto ===== -->
+        <div class="col-lg-7">
+          <section class="panel-formulario" aria-labelledby="titulo-formulario">
+            <h2 id="titulo-formulario" class="h4 mb-4">Formulario de contacto</h2>
+
+            <!-- Mensaje de confirmación (oculto hasta que el envío sea exitoso) -->
+            <div id="confirmacion" class="alert alert-success d-none" role="status" tabindex="-1">
+              <h3 class="h5 alert-heading"><i class="bi bi-check-circle-fill me-2"></i>¡Mensaje enviado!</h3>
+              <p class="mb-0" id="texto-confirmacion"></p>
+            </div>
+
+            <!-- novalidate: las validaciones las controla JavaScript para mostrar mensajes propios -->
+            <form id="form-contacto" novalidate>
+              <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre completo *</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" autocomplete="name"
+                       aria-describedby="error-nombre">
+                <div class="invalid-feedback" id="error-nombre"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="correo" class="form-label">Correo electrónico *</label>
+                <input type="email" class="form-control" id="correo" name="correo" autocomplete="email"
+                       placeholder="nombre@correo.com" aria-describedby="error-correo">
+                <div class="invalid-feedback" id="error-correo"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="asunto" class="form-label">Asunto</label>
+                <input type="text" class="form-control" id="asunto" name="asunto" maxlength="120">
+              </div>
+
+              <div class="mb-3">
+                <label for="mensaje" class="form-label">Mensaje *</label>
+                <textarea class="form-control" id="mensaje" name="mensaje" rows="5" maxlength="500"
+                          aria-describedby="error-mensaje contador-mensaje"></textarea>
+                <div class="d-flex justify-content-between gap-3">
+                  <div class="invalid-feedback d-block w-auto" id="error-mensaje"></div>
+                  <span class="contador-caracteres ms-auto text-nowrap mt-1" id="contador-mensaje">0 / 500</span>
+                </div>
+              </div>
+
+              <p class="small text-secondary">* Campos obligatorios.</p>
+
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="bi bi-send me-2"></i>Enviar mensaje
+              </button>
+            </form>
+          </section>
+        </div>
+
+        <!-- ===== Información de contacto y ubicación ===== -->
+        <div class="col-lg-5">
+          <div class="mapa-ubicacion mb-4" role="img" aria-label="Mapa ilustrativo de la ubicación de la sede en Medellín">
+            <div>
+              <i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
+              <p class="fw-semibold mb-0">Sede editorial</p>
+              <small>Medellín, Antioquia</small>
+            </div>
+          </div>
+
+          <section class="panel-contacto" aria-labelledby="titulo-datos">
+            <h2 id="titulo-datos" class="h5 mb-3">Datos de contacto</h2>
+            <ul class="list-unstyled lista-contacto mb-0">
+              <li><i class="bi bi-geo-alt" aria-hidden="true"></i><span>Carrera 43A # 1-50, Medellín, Colombia</span></li>
+              <li><i class="bi bi-telephone" aria-hidden="true"></i><span>+57 (604) 000 0000</span></li>
+              <li><i class="bi bi-envelope" aria-hidden="true"></i><span>contacto@panoramadigital.co</span></li>
+              <li><i class="bi bi-clock" aria-hidden="true"></i><span>Lunes a viernes, 8:00 a. m. – 5:00 p. m.</span></li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer id="app-footer"></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="assets/js/pages/contacto.js"></script>
+</body>
+</html>

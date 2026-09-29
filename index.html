@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Panorama Digital: noticias y experiencias de tecnología, turismo, educación y negocios.">
+  <title>Inicio | Panorama Digital</title>
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+
+  <!-- Tipografías: Merriweather (títulos, estilo periódico) e Inter (texto) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700;900&display=swap" rel="stylesheet">
+  <!-- Bootstrap 5 e íconos de Bootstrap desde CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Estilos propios -->
+  <link href="assets/css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Header: lo inserta el componente layout.js -->
+  <header id="app-header"></header>
+
+  <main>
+    <!-- ===== Sección de bienvenida (Hero) con llamados a la acción ===== -->
+    <section class="hero text-center" aria-labelledby="titulo-bienvenida">
+      <div class="container">
+        <p class="text-uppercase fw-semibold text-acento mb-2">Bienvenido a</p>
+        <h1 id="titulo-bienvenida">Panorama Digital</h1>
+        <p class="lead mt-3">
+          Tu periódico digital de tecnología, turismo, educación y negocios.
+          Información clara para entender lo que pasa a tu alrededor.
+        </p>
+        <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+          <a href="noticias.html" class="btn btn-acento btn-lg"><i class="bi bi-newspaper me-2"></i>Explorar noticias</a>
+          <a href="contacto.html" class="btn btn-outline-light btn-lg"><i class="bi bi-envelope me-2"></i>Contáctanos</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Noticias destacadas (renderizadas desde el JSON) ===== -->
+    <section class="container py-5" aria-labelledby="titulo-destacadas">
+      <div class="d-flex flex-wrap justify-content-between align-items-end gap-2">
+        <h2 id="titulo-destacadas" class="titulo-seccion">Noticias destacadas</h2>
+        <a href="noticias.html" class="btn btn-outline-primary mb-4">Ver todas las noticias <i class="bi bi-arrow-right"></i></a>
+      </div>
+      <div id="lista-destacadas" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" aria-live="polite">
+        <!-- Marcadores de carga mientras llega la información -->
+        <div class="col"><div class="skeleton"></div></div>
+        <div class="col"><div class="skeleton"></div></div>
+        <div class="col"><div class="skeleton"></div></div>
+      </div>
+    </section>
+
+    <!-- ===== Testimonios ===== -->
+    <section class="container pb-5" aria-labelledby="titulo-testimonios">
+      <h2 id="titulo-testimonios" class="titulo-seccion">Lo que dicen nuestros lectores</h2>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <figure class="testimonio mb-0">
+            <blockquote class="mb-3">
+              “Me gusta que las noticias vayan al grano. Guardo en favoritos lo que quiero leer con calma en la noche.”
+            </blockquote>
+            <figcaption class="d-flex align-items-center gap-3">
+              <span class="avatar" aria-hidden="true">MC</span>
+              <span><strong>María Cardona</strong><br><small class="text-secondary">Docente, Envigado</small></span>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="testimonio mb-0">
+            <blockquote class="mb-3">
+              “Las guías de turismo me ayudaron a planear mi último viaje por el Eje Cafetero. Muy recomendadas.”
+            </blockquote>
+            <figcaption class="d-flex align-items-center gap-3">
+              <span class="avatar" aria-hidden="true">JR</span>
+              <span><strong>Julián Rendón</strong><br><small class="text-secondary">Ingeniero, Medellín</small></span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Sección informativa: ¿Qué es Panorama Digital? ===== -->
+    <section class="container pb-5" aria-labelledby="titulo-info">
+      <div class="seccion-info">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-7">
+            <h2 id="titulo-info" class="titulo-seccion">¿Qué es Panorama Digital?</h2>
+            <p>
+              Panorama Digital es un periódico en línea que reúne noticias y experiencias sobre
+              tecnología, turismo, educación y negocios. Nuestro objetivo es ofrecer información
+              útil, verificada y fácil de leer desde cualquier dispositivo.
+            </p>
+            <a href="categorias.html" class="btn btn-primary"><i class="bi bi-grid me-2"></i>Explorar categorías</a>
+          </div>
+          <div class="col-lg-5">
+            <div class="row text-center g-3">
+              <div class="col-4"><div class="dato-destacado" id="dato-noticias">—</div><small>Noticias</small></div>
+              <div class="col-4"><div class="dato-destacado">4</div><small>Categorías</small></div>
+              <div class="col-4"><div class="dato-destacado" id="dato-favoritos">0</div><small>Tus favoritos</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Llamado a la acción final ===== -->
+    <section class="container" aria-labelledby="titulo-cta">
+      <div class="banda-cta d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+        <div>
+          <h2 id="titulo-cta" class="h3 mb-1">¿Tienes una historia para contar?</h2>
+          <p class="mb-0">Publica una noticia o escríbenos para proponer un tema.</p>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+          <a href="noticias.html#publicar" class="btn btn-dark"><i class="bi bi-plus-lg me-1"></i>Publicar noticia</a>
+          <a href="contacto.html" class="btn btn-outline-dark">Contactar</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer: lo inserta el componente layout.js -->
+  <footer id="app-footer"></footer>
+
+  <noscript><p class="text-center p-3">Esta aplicación necesita JavaScript habilitado para mostrar las noticias.</p></noscript>
+
+  <!-- Bootstrap JS (incluye Popper) y script de la página como módulo ES -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="assets/js/pages/home.js"></script>
+</body>
+</html>

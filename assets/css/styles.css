@@ -1,0 +1,347 @@
+/* ==========================================================================
+   Panorama Digital — Hoja de estilos principal
+   --------------------------------------------------------------------------
+   Complementa a Bootstrap 5 con la identidad visual del sitio.
+   Estructura:
+     1. Variables (colores, tipografía, radios)
+     2. Base y tipografía
+     3. Header / navegación
+     4. Hero (sección de bienvenida)
+     5. Tarjetas de noticias
+     6. Etiquetas de categoría
+     7. Filtros y paginación (Listado)
+     8. Detalle de noticia
+     9. Testimonios y secciones informativas
+    10. Contacto y formularios
+    11. Footer
+    12. Utilidades y responsive
+   ========================================================================== */
+
+/* 1. Variables ------------------------------------------------------------ */
+:root {
+  --pd-primario: #0B3C5D;        /* Azul marino: color principal de la marca */
+  --pd-primario-oscuro: #072A42;
+  --pd-acento: #F59E0B;          /* Ámbar: llamados a la acción y detalles */
+  --pd-fondo: #F6F7F9;
+  --pd-texto: #1F2933;
+  --pd-borde: #E3E7EC;
+  --pd-radio: 14px;
+  --pd-sombra: 0 6px 20px rgba(11, 60, 93, 0.08);
+  --pd-sombra-hover: 0 12px 28px rgba(11, 60, 93, 0.16);
+
+  /* Colores por categoría (coinciden con las ilustraciones) */
+  --cat-tecnologia: #1D6FA3;
+  --cat-turismo: #0F766E;
+  --cat-educacion: #6D28D9;
+  --cat-negocios: #B45309;
+
+  /* Se ajusta el color primario de Bootstrap a la marca */
+  --bs-primary: var(--pd-primario);
+  --bs-primary-rgb: 11, 60, 93;
+  --bs-link-color: var(--pd-primario);
+  --bs-link-color-rgb: 11, 60, 93;
+  --bs-link-hover-color: var(--pd-primario-oscuro);
+  --bs-link-hover-color-rgb: 7, 42, 66;
+}
+
+/* 2. Base y tipografía ---------------------------------------------------- */
+body {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--pd-texto);
+  background-color: var(--pd-fondo);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main { flex: 1; }
+
+h1, h2, h3, .titulo-seccion {
+  font-family: 'Merriweather', Georgia, serif;
+  color: var(--pd-primario);
+}
+
+.titulo-seccion {
+  font-size: 1.6rem;
+  font-weight: 700;
+  position: relative;
+  padding-bottom: .5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Línea decorativa bajo los títulos de sección, al estilo de un periódico */
+.titulo-seccion::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 56px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--pd-acento);
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--pd-primario);
+  --bs-btn-border-color: var(--pd-primario);
+  --bs-btn-hover-bg: var(--pd-primario-oscuro);
+  --bs-btn-hover-border-color: var(--pd-primario-oscuro);
+  --bs-btn-active-bg: var(--pd-primario-oscuro);
+}
+
+.btn-acento {
+  background: var(--pd-acento);
+  color: #1b1300;
+  font-weight: 600;
+  border: none;
+}
+.btn-acento:hover, .btn-acento:focus { background: #d98a06; color: #1b1300; }
+
+.text-acento { color: var(--pd-acento); }
+.bg-marca { background-color: var(--pd-primario); }
+
+/* Foco visible para navegación con teclado (accesibilidad) */
+a:focus-visible, button:focus-visible, .form-control:focus-visible {
+  outline: 3px solid var(--pd-acento);
+  outline-offset: 2px;
+}
+
+/* 3. Header / navegación -------------------------------------------------- */
+.navbar .nav-link {
+  font-weight: 500;
+  padding: .5rem .9rem !important;
+  border-bottom: 3px solid transparent;
+}
+.navbar .nav-link.active {
+  color: #fff !important;
+  border-bottom-color: var(--pd-acento);
+}
+
+/* 4. Hero ----------------------------------------------------------------- */
+.hero {
+  background:
+    radial-gradient(circle at 85% 20%, rgba(245, 158, 11, .25), transparent 45%),
+    linear-gradient(135deg, var(--pd-primario) 0%, #1D6FA3 100%);
+  color: #fff;
+  padding: 5rem 0 4.5rem;
+}
+.hero h1 { color: #fff; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; }
+.hero .lead { max-width: 640px; margin-inline: auto; opacity: .92; }
+
+/* Encabezado reducido para páginas internas */
+.encabezado-pagina {
+  background: linear-gradient(135deg, var(--pd-primario) 0%, #1D6FA3 100%);
+  color: #fff;
+  padding: 2.5rem 0;
+  margin-bottom: 2rem;
+}
+.encabezado-pagina h1 { color: #fff; margin: 0; font-size: 2rem; }
+.encabezado-pagina p { margin: .5rem 0 0; opacity: .9; }
+
+/* 5. Tarjetas de noticias ------------------------------------------------- */
+.card-noticia {
+  border: 1px solid var(--pd-borde);
+  border-radius: var(--pd-radio);
+  overflow: hidden;
+  box-shadow: var(--pd-sombra);
+  transition: transform .2s ease, box-shadow .2s ease;
+  position: relative;
+}
+.card-noticia:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--pd-sombra-hover);
+}
+.card-img-wrap { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--pd-borde); }
+.card-img-top { width: 100%; height: 100%; object-fit: cover; transition: transform .3s ease; }
+.card-noticia:hover .card-img-top { transform: scale(1.04); }
+
+.card-noticia .card-title a {
+  color: var(--pd-texto);
+  text-decoration: none;
+}
+.card-noticia .card-title a:hover { color: var(--pd-primario); text-decoration: underline; }
+
+/* Limita el resumen a 3 líneas para que todas las tarjetas tengan altura similar */
+.card-noticia .card-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.badge-favorito {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--pd-acento);
+  color: #1b1300;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+}
+
+/* Estado de carga (skeleton) mientras se descarga el JSON */
+.skeleton {
+  height: 340px;
+  border-radius: var(--pd-radio);
+  background: linear-gradient(90deg, #e9edf1 25%, #f4f6f8 50%, #e9edf1 75%);
+  background-size: 200% 100%;
+  animation: brillo 1.2s infinite;
+}
+@keyframes brillo { to { background-position: -200% 0; } }
+
+/* 6. Etiquetas de categoría ----------------------------------------------- */
+.badge-categoria { font-weight: 600; letter-spacing: .02em; color: #fff; }
+.cat-tecnologia { background-color: var(--cat-tecnologia); }
+.cat-turismo    { background-color: var(--cat-turismo); }
+.cat-educacion  { background-color: var(--cat-educacion); }
+.cat-negocios   { background-color: var(--cat-negocios); }
+
+/* 7. Filtros y paginación ------------------------------------------------- */
+.barra-filtros {
+  background: #fff;
+  border: 1px solid var(--pd-borde);
+  border-radius: var(--pd-radio);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--pd-sombra);
+}
+.btn-filtro {
+  border: 1px solid var(--pd-borde);
+  background: #fff;
+  color: var(--pd-texto);
+  border-radius: 999px;
+  padding: .35rem 1rem;
+  font-size: .9rem;
+}
+.btn-filtro.activo {
+  background: var(--pd-primario);
+  border-color: var(--pd-primario);
+  color: #fff;
+}
+
+.pagination .page-link { color: var(--pd-primario); }
+.pagination .page-item.active .page-link {
+  background-color: var(--pd-primario);
+  border-color: var(--pd-primario);
+  color: #fff;
+}
+
+.estado-vacio {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: #fff;
+  border: 2px dashed var(--pd-borde);
+  border-radius: var(--pd-radio);
+}
+.estado-vacio i { font-size: 3rem; color: var(--pd-acento); }
+
+/* 8. Detalle de noticia --------------------------------------------------- */
+.detalle-imagen {
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  object-fit: cover;
+  border-radius: var(--pd-radio);
+  box-shadow: var(--pd-sombra);
+}
+.detalle-titulo { font-size: clamp(1.7rem, 4vw, 2.5rem); font-weight: 900; }
+.detalle-meta { color: #5c6b7a; font-size: .95rem; }
+.detalle-cuerpo p { font-size: 1.1rem; line-height: 1.8; }
+.detalle-cuerpo p:first-child::first-letter {
+  /* Letra capital, recurso clásico de los periódicos */
+  float: left;
+  font-family: 'Merriweather', Georgia, serif;
+  font-size: 3.4rem;
+  line-height: .9;
+  padding: .35rem .5rem 0 0;
+  color: var(--pd-primario);
+}
+
+/* 9. Testimonios y secciones informativas --------------------------------- */
+.testimonio {
+  background: #fff;
+  border-radius: var(--pd-radio);
+  border-left: 5px solid var(--pd-acento);
+  padding: 1.5rem;
+  box-shadow: var(--pd-sombra);
+  height: 100%;
+}
+.testimonio blockquote { font-style: italic; margin-bottom: 1rem; }
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--pd-primario);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.seccion-info {
+  background: #fff;
+  border-radius: var(--pd-radio);
+  padding: 2.5rem;
+  box-shadow: var(--pd-sombra);
+}
+.dato-destacado { font-size: 2rem; font-weight: 800; color: var(--pd-primario); }
+
+.banda-cta {
+  background: linear-gradient(135deg, var(--pd-acento), #FBBF24);
+  border-radius: var(--pd-radio);
+  padding: 2.5rem;
+  color: #1b1300;
+}
+.banda-cta h2 { color: #1b1300; }
+
+/* Tarjetas de la página Categorías */
+.card-categoria {
+  border: none;
+  border-radius: var(--pd-radio);
+  overflow: hidden;
+  box-shadow: var(--pd-sombra);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.card-categoria:hover { transform: translateY(-4px); box-shadow: var(--pd-sombra-hover); }
+.card-categoria img { aspect-ratio: 16 / 8; object-fit: cover; }
+
+/* 10. Contacto y formularios ---------------------------------------------- */
+.panel-formulario, .panel-contacto {
+  background: #fff;
+  border-radius: var(--pd-radio);
+  padding: 2rem;
+  box-shadow: var(--pd-sombra);
+}
+.mapa-ubicacion {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--pd-radio);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, .5) 1px, transparent 1px) 0 0 / 40px 40px,
+    linear-gradient(rgba(255, 255, 255, .5) 1px, transparent 1px) 0 0 / 40px 40px,
+    linear-gradient(135deg, #cfe3d8, #b9d6e8);
+  display: grid;
+  place-items: center;
+  color: var(--pd-primario);
+  text-align: center;
+}
+.mapa-ubicacion i { font-size: 3rem; color: #d33; }
+
+.lista-contacto li { display: flex; gap: .75rem; margin-bottom: 1rem; }
+.lista-contacto i { color: var(--pd-acento); font-size: 1.2rem; }
+
+.contador-caracteres { font-size: .8rem; color: #6c7a89; }
+
+/* 11. Footer -------------------------------------------------------------- */
+.footer-marca { background: var(--pd-primario-oscuro); color: #c9d6e2; }
+.footer-marca a { color: #c9d6e2; text-decoration: none; }
+.footer-marca a:hover { color: var(--pd-acento); }
+
+/* 12. Utilidades y responsive --------------------------------------------- */
+.migas { font-size: .9rem; }
+
+@media (max-width: 576px) {
+  .hero { padding: 3.5rem 0 3rem; }
+  .seccion-info, .panel-formulario, .panel-contacto, .banda-cta { padding: 1.5rem; }
+}
