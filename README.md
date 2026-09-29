@@ -6,6 +6,9 @@ consultan su detalle, las guardan en favoritos, gestionan el catálogo (Mini CRU
 
 **Autor:** Daniel Jaramillo Bustamante · **Tutor:** John Olarte Ramos
 
+- **Sitio publicado:** https://danidev100.github.io/panorama-digital/
+- **Repositorio:** https://github.com/danidev100/panorama-digital
+
 ## Funcionalidades
 
 | Requerimiento | Implementación |
